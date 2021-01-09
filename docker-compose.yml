@@ -1,0 +1,31 @@
+version: '3'
+services:
+  db:
+    image: mysql/mysql-server:5.7
+    container_name: mysql57
+    restart: always
+    volumes:
+      - ./db_data:/var/lib/mysql:rw
+      - ./my.cnf:/etc/my.cnf
+      - ./var/log:/var/log:rw
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+    environment:
+      MYSQL_ROOT_PASSWORD: passer2014
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test_pass
+      MYSQL_DATABASE: test_db
+    ports:
+      - "3306:3306"
+  adminer:
+    image: adminer
+    container_name: adminer57
+    restart: always
+    ports:
+      - 8006:8080
+    links:
+      - db
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
